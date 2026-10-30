@@ -157,6 +157,20 @@ Open the application:
 | GET | `/history` | Retrieve conversation messages |
 | POST | `/chat` | Send a message and receive an AI response |
 
+## 📸 Application Screenshots
+
+### 1. CareerPilot AI Chat Interface
+
+![CareerPilot AI Chat](screenshots/chatbot.png)
+
+### 2. Conversation History
+
+![Conversation History](screenshots/conversation-history.png)
+
+### 3. FastAPI Backend Documentation
+
+![FastAPI Documentation](screenshots/api-docs.png)
+
 ## 🧠 What I Learned
 
 Through this project, I gained practical experience in:
