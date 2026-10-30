@@ -90,6 +90,7 @@ with st.sidebar:
                 st.error("Could not load this conversation.")
 
 
+
 if st.session_state.conversation_id is None:
     if conversations:
         conversation_id = conversations[0]["conversation_id"]
@@ -102,8 +103,22 @@ if st.session_state.conversation_id is None:
 
         except requests.RequestException:
             st.error("Could not load the latest conversation.")
+
     else:
-        st.info("Click 'New Chat' in the sidebar to get started.")
+        try:
+            response = requests.post(
+                CONVERSATIONS_URL,
+                timeout=10
+            )
+            response.raise_for_status()
+
+            st.session_state.conversation_id = (
+                response.json()["conversation_id"]
+            )
+            st.session_state.messages = []
+
+        except (requests.RequestException, KeyError, ValueError):
+            st.error("Could not create a new conversation.")
 
 
 st.title("CareerPilot AI")
@@ -116,7 +131,8 @@ for message in st.session_state.messages:
         st.markdown(message["content"])
 
 prompt = st.chat_input(
-    "Ask about Python, resumes, skills, or interviews..."
+    "Ask about Python, resumes, skills, or interviews...",
+    disabled=not st.session_state.conversation_id
 )
 
 if prompt:
