@@ -1,10 +1,19 @@
 
 import streamlit as st
 import requests
+import os
 
-API_URL = "http://127.0.0.1:8000/chat"
-HISTORY_URL = "http://127.0.0.1:8000/history"
-CONVERSATIONS_URL = "http://127.0.0.1:8000/conversations"
+try:
+    BACKEND_URL = st.secrets["BACKEND_URL"]
+except (KeyError, FileNotFoundError):
+    BACKEND_URL = os.getenv(
+        "BACKEND_URL",
+        "http://127.0.0.1:8000"
+    )
+
+API_URL = f"{BACKEND_URL}/chat"
+HISTORY_URL = f"{BACKEND_URL}/history"
+CONVERSATIONS_URL = f"{BACKEND_URL}/conversations"
 
 
 def load_history(conversation_id):
