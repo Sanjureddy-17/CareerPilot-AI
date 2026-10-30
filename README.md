@@ -161,11 +161,11 @@ Open the application:
 
 ### 1. CareerPilot AI Chat Interface And Conversation History
 
-![CareerPilot AI Chat](<img width="1310" height="717" alt="Chatbot" src="https://github.com/user-attachments/assets/4b104e85-3bd0-4e8d-b398-451d95fe16e1" />)
+![CareerPilot AI Chat](screenshots/Chatbot.png)
 
 ### 2. FastAPI Backend Documentation
 
-![FastAPI Documentation](<img width="1153" height="704" alt="SwaggerUI" src="https://github.com/user-attachments/assets/90bd824c-22ea-40a2-8fe1-6ee9042232f7" />)
+![FastAPI Documentation](screenshots/SwaggerUI.png)
 
 ## 🧠 What I Learned
 
