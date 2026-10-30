@@ -180,13 +180,19 @@ Through this project, I gained practical experience in:
 - Managing environment variables and API credentials.
 - Using Git and GitHub for version control.
 
-## 🔮 Future Improvements
+## Known Limitations
 
-- Implement Retrieval-Augmented Generation (RAG) for personalized career resources.
-- Add user authentication and account management.
-- Integrate job-search APIs for relevant job opportunities.
-- Introduce resume parsing and automated skill-gap analysis.
-- Deploy the application to a cloud platform.
+- **Database persistence:** The application currently uses SQLite for storing conversations and chat history. Since the backend is hosted on Render's free tier, its filesystem is ephemeral. Database files may be lost when the service restarts or redeploys.
+- **Conversation recovery:** If a conversation becomes unavailable, the application creates a new conversation and retries the user's message.
+- **Live information:** The chatbot does not currently retrieve real-time information from external sources.
+- **Service availability:** Free hosting services may experience cold starts after periods of inactivity.
+
+## Future Improvements
+
+- Implement persistent database storage.
+- Integrate Retrieval-Augmented Generation (RAG) for document-based question answering.
+- Add resume upload and analysis capabilities.
+- Improve response evaluation and monitoring.
 
 ## 👨‍💻 Developer
 
