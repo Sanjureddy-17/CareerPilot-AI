@@ -173,13 +173,50 @@ if prompt:
             except requests.ConnectionError:
                 answer = "Cannot connect to CareerPilot AI. Please check whether the backend is running."
 
-            except requests.HTTPError:
-                try:
-                    error_detail = response.json().get("detail", "Unknown server error")
-                except ValueError:
-                    error_detail = "The server returned an unexpected response."
 
-                answer = f"CareerPilot AI error ({response.status_code}): {error_detail}"
+            except requests.HTTPError:
+                if response.status_code == 404:
+                    try:
+                        # Create a fresh conversation
+                        new_response = requests.post(
+                            CONVERSATIONS_URL,
+                            timeout=10
+                        )
+                        new_response.raise_for_status()
+
+                        new_conversation_id = new_response.json()["conversation_id"]
+
+                        st.session_state.conversation_id = new_conversation_id
+                        st.session_state.messages = []
+
+                        # Retry the original question with the new ID
+                        retry_response = requests.post(
+                            API_URL,
+                            json={
+                                "conversation_id": new_conversation_id,
+                                "message": prompt,
+                                "history": []
+                            },
+                            timeout=60
+                        )
+                        retry_response.raise_for_status()
+
+                        answer = retry_response.json()["reply"]
+                        request_succeeded = True
+
+                    except (requests.RequestException, KeyError, ValueError):
+                        answer = "Your previous conversation expired. Please start a new chat and try again."
+
+                else:
+                    try:
+                        error_detail = response.json().get(
+                            "detail",
+                            "Unknown server error"
+                        )
+                    except ValueError:
+                        error_detail = "The server returned an unexpected response."
+
+                    answer = f"CareerPilot AI error ({response.status_code}): {error_detail}"
 
             except (ValueError, KeyError):
                 answer = "The AI service returned an unexpected response."
